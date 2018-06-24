@@ -9,9 +9,9 @@ class App extends Component {
     super(props)
     
     this.state = {
-      ownerName: "",
+            ownerName: "",
       percentage: 0,
-      owners: [],
+      owners: {},
       isValid: false,
       totalPercentage: 100
     }
@@ -40,21 +40,25 @@ class App extends Component {
 
   
   addOwner(){
+    let ownerName = this.state.ownerName;
           if(this.state.percentage > this.state.totalPercentage){
               alert("You can not own more then " + this.state.totalPercentage + "% of what's left of the company.")
-      }else{
+      }else if(ownerName in this.state.owners){
+          alert(ownerName + " already is an owner.");
+      }
+      else{
         let ownerList = this.state.owners;
-        let ownerName = this.state.ownerName;
+        
         let percent = this.state.percentage;
-        ownerList.push((ownerName,percent));
+        ownerList[ownerName] = percent;
         this.setState({totalPercentage: this.state.totalPercentage - this.state.percentage, owners: ownerList, ownerName: "", percentage: 0, isValid:false});
       }
     }
   deleteOwner(event){
     let ownerList = this.state.owners;
-    let index = event.target.value;
-    let percent = parseInt(ownerList[index][1]);
-    ownerList.splice(index,1)
+    let name = event.target.value;
+    let percent = parseInt(ownerList[name]);
+    delete ownerList[name];
     this.setState({ownerList:ownerList, totalPercentage: this.state.totalPercentage + percent});
 
 
@@ -82,10 +86,9 @@ class App extends Component {
                 <h2>List of Owners</h2>
             <ul>
               <li>totalPercentage : {this.state.totalPercentage}</li>
-              {this.state.owners}
               {Object.keys(this.state.owners).map( (owner, index) =>{
                 return(
-                  <li key={owner}>{owner}: {owner}% <button value={index} onClick={this.deleteOwner}>Delete</button></li>
+                  <li>{owner}: {this.state.owners[owner]}% <button value={owner} onClick={this.deleteOwner}>Delete</button></li>
                 )
               })}
             </ul>
@@ -94,7 +97,6 @@ class App extends Component {
     )
   }
 }
-
 
 
 
