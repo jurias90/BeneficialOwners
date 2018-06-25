@@ -28,6 +28,19 @@
 
 }
 
+#percentage{
+  text-align: right;
+}
+
+.labels{
+  display: block;
+}
+
 .buttons {
   border-radius: 20px
+}
+
+.ownerList{
+  list-style-type: none;
+
 }

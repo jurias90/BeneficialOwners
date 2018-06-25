@@ -9,7 +9,7 @@ class App extends Component {
     super(props)
     
     this.state = {
-            ownerName: "",
+      ownerName: "",
       percentage: 0,
       owners: {},
       isValid: false,
@@ -32,6 +32,9 @@ class App extends Component {
       this.state.isValid = true;
     }
     if(id === "owner"){
+        if(val.length < 3){
+          this.state
+        }
         this.setState({ownerName:val});
     }else{
         this.setState({percentage: val});
@@ -70,26 +73,26 @@ class App extends Component {
     return (
       <div id="body">
         <h1 className="title">Welcome to (insert company name here)</h1>
-        <h3>Please join us as a benefieciery owner and own a piece of our company.</h3>
+        <h3>Please join us as a beneficiary owner!</h3>
         <form>
           <div>
-            <label for="owner" >Name of Owner:</label>
+            <label className="labels" for="owner" >Name of Owner:</label>
             <input type="text" value={this.state.ownerName} onChange={this.changeState} id="owner"  name= "owner" />          
           </div>
           <div>
-            <label for="percentage">Percentage Owned:(in whole numbers)</label>
-              <input type="number" value={this.state.percentage} onChange={this.changeState} id="percentage" name="percentage" />
+            <label className="labels" for="percentage">Percentage Owned:</label>
+              <input type="number" value={this.state.percentage} onChange={this.changeState} id="percentage" name="percentage" />%
           </div>
-               
+          <button type="button" className="buttons" onClick={this.addOwner} onChange={this.changeState} disabled={!this.state.isValid}>Submit</button>
         </form>
-        <button className="buttons" onClick={this.addOwner} onChange={this.changeState} disabled={!this.state.isValid}>Submit</button>
+        
         <div>
           <h2>List of Owners</h2>
-          <ul>
-            <li>totalPercentage : {this.state.totalPercentage}</li>
-            {Object.keys(this.state.owners).map( (owner, index) =>{
+          <ul className="ownerList">
+            <li>Percentage of Company Left : {this.state.totalPercentage}%</li>
+            {Object.keys(this.state.owners).map( (owner) =>{
               return(
-                <li>{owner}: {this.state.owners[owner]}% <button className="buttons" value={owner} onClick={this.deleteOwner}>Delete</button></li>
+                <li key={owner}>{owner}: {this.state.owners[owner]}% <button className="buttons" value={owner} onClick={this.deleteOwner}>Delete</button></li>
               )
             })}
           </ul>
